@@ -1,0 +1,309 @@
+/* ******************************************************************************** */
+/* layout */
+.headTailC {
+    margin: 0 0 2px 0;
+    width: 100%;
+    height: 25px;
+    background-color: #333333;
+    text-align: center;
+    color: white;
+    font-family:Arial,Helvetica,sans-serif;
+    font-weight:bold;
+    float: left;
+}
+
+/* 注意设置position: relative阻断画布的position: absolute */
+.leftTopC {
+    width: 450px;
+    height: 762px;
+    float: left;
+    position: relative;
+}
+
+.rightTopC {
+    margin: 0 0 0 2px;
+    width: 752px;
+    height: 762px;
+    float: left;
+}
+
+.leftBottomC {
+    width: 450px;
+    height: 762px;
+    float: left;
+}
+
+.rightBottomC {
+    margin: 0 0 0 2px;
+    width: 752px;
+    height: 762px;
+    float: left;
+}
+
+/* ******************************************************************************** */
+/* left top */
+
+.screenshotC {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    background-color: WhiteSmoke;
+}
+
+.screenshotRectC {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+
+/* ******************************************************************************** */
+/* right top */
+
+/* ================================================================================ */
+/* ui tree */
+
+.uiTreeC {
+    margin: 1px 0;
+    box-sizing: border-box;
+    border: none;
+    padding: 0;
+    width: 100%;
+    height: 174px;
+    overflow-x:scroll;
+    overflow-y:scroll;
+    float: left;
+}
+
+/* 设置min-width, 防止存在横向滚动条时背景颜色铺不满 */
+.treeViewC {
+    min-width: max-content;
+    min-width: -moz-max-content;
+}
+
+.treeUl {
+    margin: 0;
+    border-width: 0;
+    padding: 0;
+}
+
+.treeLi {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: white;
+}
+
+.treeLiSelected {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: lightgray;
+}
+
+/* ================================================================================ */
+/* ui detail, table */
+
+.uiDetailC {
+    margin: 1px 0;
+    box-sizing: border-box;
+    border-width: 1px;
+    padding: 0;
+    width: 100%;
+    height: 174px;
+    overflow-y:scroll;
+    float: left;
+}
+
+.uiDetailTableC {
+    width: 100%;
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.uiDetailTableTh1C {
+    width: 20%;
+    color: white;
+    border: 1px solid black;
+    background-color: #333333;
+}
+
+.uiDetailTableTh2C {
+    color: white;
+    border: 1px solid black;
+    background-color: #333333;
+}
+
+table.uiDetailTableC td {
+    border-style: solid;
+    border-color: grey;
+    border-width: 1.5px;
+    border-top: none;
+}
+
+/* ================================================================================ */
+/* event list */
+
+.eventListC {
+    margin: 1px 0;
+    box-sizing: border-box;
+    border-width: 1px;
+    padding: 0;
+    width: 100%;
+    height: 200px;
+    overflow-y:scroll;
+    float: left;
+}
+
+.eventListTableC {
+    width: 100%;
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.eventListTableTh0C {
+    width: 10%;
+    color: white;
+    border: 1px solid black;
+    background-color: #333333;
+}
+
+.eventListTableTh1C {
+    width: 10%;
+    color: white;
+    border: 1px solid black;
+    background-color: #333333;
+}
+
+.eventListTableTh2C {
+    width: 40%;
+    color: white;
+    border: 1px solid black;
+    background-color: #333333;
+}
+
+.eventListTableTh3C {
+    color: white;
+    border: 1px solid black;
+    background-color: #333333;
+}
+
+table.eventListTableC td {
+    border-style: solid;
+    border-color: grey;
+    border-width: 1.5px;
+    border-top: none;
+}
+
+/* ******************************************************************************** */
+/* left bottom */
+
+.sourceTreeC {
+    margin: 1px 0 1px 0;
+    box-sizing: border-box;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    height: 390px;
+    overflow-x:scroll;
+    overflow-y:scroll;
+    float: left;
+}
+
+.treeLiUnSelected {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: darkgray;
+}
+
+.treeLiPackage {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: WhiteSmoke;
+}
+
+.treeLiCovered0 {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: lightgreen;
+}
+
+.treeLiCovered1 {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: darkred;
+}
+
+.treeLiCovered2 {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: red;
+}
+
+.treeLiCovered3 {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: lightcoral;
+}
+
+.treeLiCovered4 {
+    font-size: 14px;
+    font-family:Arial,Helvetica,sans-serif;
+    list-style-type: none;
+    background-color: yellow;
+}
+
+.analysisListC {
+    margin: 1px 0 1px 0;
+    box-sizing: border-box;
+    border: 0;
+    padding: 0;
+    width: 100%;
+    height: 341px;
+    overflow-x:scroll;
+    overflow-y:scroll;
+    float: left;
+}
+
+/* ******************************************************************************** */
+/* right bottom */
+
+.sourceHeadC {
+    margin: 0 0 2px 0;
+    width: 752px;
+    height: 26px;
+    background-color: #333333;
+    text-align: center;
+    color: white;
+    font-family:Arial,Helvetica,sans-serif;
+    font-weight:bold;
+    float: left;
+}
+
+.sourceListC {
+    margin: 0 0 2px 0;
+    box-sizing: border-box;
+    border: none;
+    padding: 0;
+    width: 100%;
+    height: 732px;
+    overflow-x:scroll;
+    overflow-y:scroll;
+    float: left;
+    background-color: WhiteSmoke
+}

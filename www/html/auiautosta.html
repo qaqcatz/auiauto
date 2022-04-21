@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>auiauto-statistic</title>
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    <script type="text/javascript" src="../js/projects.js"></script>
+    <script type="text/javascript" src="../js/statistic.js"></script>
+    <script type="text/javascript" src="../js/echarts.min.js"></script>
+    <script type="text/javascript" src="../js/echarts-gl.min.js"></script>
+    <script type="text/javascript" src="../js/dataTool.min.js"></script>
+    <script type="text/javascript" src="../js/saveallcharts.js"></script>
+    <link href="../css/layout.css" rel="stylesheet">
+    <link href="../css/normal.css" rel="stylesheet">
+</head>
+<body>
+<!-- head -->
+<div id="head" class="headTailC">AUIAuto</div>
+<div>
+    <!-- project -->
+    <input id="project" type="button" value="project" class="button5C" onclick="projectJ()">
+    <!-- projectName -->
+    <select id="projectName" class="select10C">
+    </select>
+    <input id="casePrefix" type="text" value="casePrefix" class="input10C">
+    <!-- tester -->
+    <select id="tester" class="select10C">
+        <option value="monkey">monkey</option>
+        <option value="aua">aua</option>
+    </select>
+{{/*    <input id="checkt" type="button" value="checkt" class="button5C" onclick="checkTJ()">*/}}
+    <!-- analyze file -->
+    <select id="analyzeFile" class="select10C">
+        <option value="rootcause">rootcause</option>
+        <option value="fix">fix</option>
+    </select>
+    <!-- analyze factor -->
+    <select id="factor" class="select10C">
+        <option value="Ochiai">Ochiai</option>
+        <option value="Tarantula">Tarantula</option>
+        <option value="Barinel">Barinel</option>
+        <option value="DStar">DStar</option>
+        <option value="Op2">Op2</option>
+    </select>
+    <input id="staAnalyzeAll" type="button" value="staAnalyzeAll" class="button10C" onclick="staAnalyzeAllJ()">
+    <input id="staRdAnalyze" type="button" value="staRdAnalyze" class="button10C" onclick="staRdAnalyzeJ()">
+    <input id="staCombineAnalyze" type="button" value="staCombineAnalyze" class="button10C" onclick="staCombineAnalyzeJ()">
+    <input id="staFactorsAnalyze" type="button" value="staFactorsAnalyze" class="button10C" onclick="staFactorsAnalyzeJ()">
+    <!-- save all images -->
+    <input id="saveAllCharts" type="button" value="saveAllCharts" class="button5C" onclick="saveAllChartsJ()">
+</div>
+<textarea id="message" type="text" value="message" style="width: 100%; height: 95px; resize: none; float: left" readonly>
+</textarea>
+<div id="table" style="width: 100%; float: left;"></div>
+<div id="graph" style="width: 100%; height: 750px; float: left"></div>
+<!-- tail -->
+<div class="headTailC">By Hzy</div>
+</body>
+</html>

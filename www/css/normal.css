@@ -1,0 +1,236 @@
+/* ******************************************************************************** */
+/* normal */
+
+.button5C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 5%;
+    height: 26px;
+    float: left;
+}
+
+.button10C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 10%;
+    height: 26px;
+    float: left;
+}
+
+.button15C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 15%;
+    height: 26px;
+    float: left;
+}
+
+.input10C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 10%;
+    height: 26px;
+    float: left;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input15C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 15%;
+    height: 26px;
+    float: left;
+    text-align: center;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input20C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 20%;
+    height: 26px;
+    float: left;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input25C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 25%;
+    height: 26px;
+    float: left;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input30C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 30%;
+    height: 26px;
+    float: left;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input35C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 35%;
+    height: 26px;
+    float: left;
+    text-align: center;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input40C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 40%;
+    height: 26px;
+    float: left;
+    text-align: center;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input75C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 75%;
+    height: 26px;
+    float: left;
+    text-align: center;
+    background: Gainsboro;
+    outline: none;
+}
+
+.input100C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 5px;
+    width: 100%;
+    height: 26px;
+    float: left;
+    background: Gainsboro;
+    outline: none;
+}
+
+.select5C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 5%;
+    height: 26px;
+    float: left;
+}
+
+.select10C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 10%;
+    height: 26px;
+    float: left;
+}
+
+.select15C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 15%;
+    height: 26px;
+    float: left;
+}
+
+.select20C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 20%;
+    height: 26px;
+    float: left;
+    text-align: center;
+}
+
+.select25C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 25%;
+    height: 26px;
+    float: left;
+}
+
+.select30C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 30%;
+    height: 26px;
+    float: left;
+    text-align: center;
+}
+
+.select35C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 35%;
+    height: 26px;
+    float: left;
+}
+
+.select40C {
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid white;
+    padding: 0;
+    width: 40%;
+    height: 26px;
+    float: left;
+}
+
+.check5C {
+    margin: 1px 0.5%;
+    box-sizing: border-box;
+    border-width: 1px;
+    padding: 0;
+    width: 4%;
+    height: 24px;
+    float: left;
+}

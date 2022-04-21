@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AUIAuto</title>
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+    <script type="text/javascript" src="../js/global.js"></script>
+    <script type="text/javascript" src="../js/avd.js"></script>
+    <script type="text/javascript" src="../js/snapshot.js"></script>
+    <script type="text/javascript" src="../js/screenshot.js"></script>
+    <script type="text/javascript" src="../js/uitree.js"></script>
+    <script type="text/javascript" src="../js/perform.js"></script>
+    <script type="text/javascript" src="../js/projects.js"></script>
+    <script type="text/javascript" src="../js/events.js"></script>
+    <script type="text/javascript" src="../js/srctree.js"></script>
+    <script type="text/javascript" src="../js/stmtlog.js"></script>
+    <script type="text/javascript" src="../js/cover.js"></script>
+    <script type="text/javascript" src="../js/analyze.js"></script>
+    <script type="text/javascript" src="../js/testing.js"></script>
+    <link href="../css/layout.css" rel="stylesheet">
+    <link href="../css/normal.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- head -->
+<div id="head" class="headTailC">AUIAuto</div>
+
+<!-- 1. screen -->
+<div class="leftTopC">
+    <!-- attr中的width/height控制canvas分辨率, style中的width/height控制canvas拉伸 -->
+    <!-- screenshot -->
+    <canvas id="screenshot" width="300" height="150" class="screenshotC"></canvas>
+    <!-- screenshot rect -->
+    <canvas id="screenshotRect" width="300" height="150" class="screenshotRectC"></canvas>
+</div>
+
+<!-- 2. ui controller -->
+<div class="rightTopC">
+    <!-- ================================================================================ -->
+    <!-- devices -->
+    <input id="devices" type="button" value="Devices" class="button10C" onclick="devJ()">
+    <!-- antrance -->
+    <input id="antrance" type="button" value="Antrance" class="button10C" onclick="antranceJ()">
+    <!-- init -->
+    <input id="init" type="button" value="Init" class="button10C" onclick="InitJ()">
+    <!-- dump -->
+    <input id="dump" type="button" value="Dump" class="button10C" onclick="dumpJ()">
+    <!-- emulator -->
+    <select id="avd" class="select30C"></select>
+    <!-- search -->
+    <input id="searchContent" type="text" value="scrollable@true" class="input30C" onkeydown="searchJ(event);">
+
+    <!-- snapshot -->
+    <input id="snapshot" type="button" value="snapshot" class="button10C" onclick="snapshotJ()">
+    <!-- loadSnapshotName -->
+    <select id="loadSnapshotName" class="select35C">
+    </select>
+    <!-- loadSnapshot -->
+    <input id="loadSnapshot" type="button" value="load" class="button10C" onclick="loadSnapshotJ()">
+    <!-- deleteSnapshot -->
+    <input id="deleteSnapshot" type="button" value="delete" class="button10C" onclick="deleteSnapshotJ()">
+    <!-- saveSnapshotName -->
+    <input id="saveSnapshotName" type="text" value="snapshotName" class="input25C">
+    <!-- saveSnapshot -->
+    <input id="saveSnapshot" type="button" value="save" class="button10C" onclick="saveSnapshotJ()">
+
+    <!-- ================================================================================ -->
+    <!-- ui tree -->
+    <div id="uiTree" class="uiTreeC">
+        <div id="treeView" class="treeViewC"></div>
+    </div>
+    <!-- ================================================================================ -->
+    <!-- click -->
+    <input id="click" type="button" value="click" class="button15C" onclick="clickJ()">
+    <!-- long click -->
+    <input id="longClick" type="button" value="longClick" class="button15C" onclick="longClickJ()">
+    <!-- swipeUp -->
+    <input id="scrollUp" type="button" value="↑" class="button10C" onclick="scrollJ(1)">
+    <!-- swipeDown -->
+    <input id="scrollDown" type="button" value="↓" class="button10C" onclick="scrollJ(3)">
+    <!-- swipeLeft -->
+    <input id="scrollLeft" type="button" value="←" class="button10C" onclick="scrollJ(0)">
+    <!-- swipeRight -->
+    <input id="scrollRight" type="button" value="→" class="button10C" onclick="scrollJ(2)">
+    <!-- back -->
+    <input id="back" type="button" value="back" class="button15C" onclick="backJ()">
+    <!-- 点击坐标 -->
+    <input id="position" type="text" value="0 0" class="input15C" readonly="readonly">
+    <!-- event type -->
+    <select id="eventType" class="select20C">
+        <option value="click">click</option>
+        <option value="dclick">dclick</option>
+        <option value="longclick">longclick</option>
+        <option value="edit">edit</option>
+        <option value="editx">editx</option>
+        <option value="scroll">scroll</option>
+        <option value="check">check</option>
+        <option value="keyevent">keyevent</option>
+        <option value="swipe">swipe</option>
+        <option value="dswipe">dswipe</option>
+        <option value="wait">wait</option>
+        <option value="rotate">rotate</option>
+    </select>
+    <!-- event value -->
+    <input id="eventValue" type="text" value="" class="input30C">
+    <!-- event desc -->
+    <input id="eventDesc" type="text" value="请添加描述" class="input30C">
+    <!-- perform -->
+    <input id="perform" type="button" value="perform" class="button10C"  onclick="performJ()">
+    <!-- remove -->
+    <input id="rm" type="button" value="remove" class="button10C" onclick="rmJ()">
+    <!-- ================================================================================ -->
+    <!-- ui detail -->
+    <div class="uiDetailC">
+        <table class="uiDetailTableC">
+            <thead>
+                <tr>
+                    <th class="uiDetailTableTh1C">Key</th>
+                    <th class="uiDetailTableTh2C">Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>package</td><td id="myPackage"></td></tr>
+                <tr><td>class</td><td id="myClass"></td></tr>
+                <tr><td>resource-id</td><td id="myResource-id"></td></tr>
+                <tr><td>contentDesc</td><td id="myContentDesc"></td></tr>
+                <tr><td>text</td><td id="myText"></td></tr>
+                <tr><td>checked</td><td id="myChecked"></td></tr>
+                <tr><td>index</td><td id="myIndex"></td></tr>
+                <tr><td>depth</td><td id="myDepth"></td></tr>
+                <tr><td>bounds</td><td id="myBounds"></td></tr>
+                <tr><td>clickable</td><td id="myClickable"></td></tr>
+                <tr><td>longClickable</td><td id="myLongClickable"></td></tr>
+                <tr><td>editable</td><td id="myEditable"></td></tr>
+                <tr><td>scrollable</td><td id="myScrollable"></td></tr>
+                <tr><td>checkable</td><td id="myCheckable"></td></tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- ================================================================================ -->
+    <!-- project -->
+    <input id="project" type="button" value="project" class="button10C" onclick="projectJ()">
+    <!-- projectName -->
+    <select id="projectName" class="select25C">
+    </select>
+    <!-- testcase -->
+    <input id="testcase" type="button" value="testcase" class="button10C" onclick="testcaseJ()">
+    <!-- testcaseName -->
+    <select id="testcaseName" class="select15C">
+    </select>
+    <!-- load -->
+    <input id="load" type="button" value="load" class="button10C" onclick="loadJ()">
+    <!-- performs -->
+    <input id="performs" type="button" value="performs" class="button10C" onclick="performsJ()">
+    <!-- cover -->
+    <input id="cover" type="button" value="cover" class="button10C" onclick="coverJ()">
+    <!-- coverEventId -->
+    <input id="coverEventId" type="text" value="" class="input10C">
+
+    <!-- initSnapshot -->
+    <input id="initSnapshot" type="text" value="initSnapshot" class="input15C">
+    <!-- initTestcase -->
+    <input id="initTestcase" type="text" value="initTestcase" class="input15C">
+    <!-- reInstall -->
+    <input id="reInstall" type="button" value="reInstall" class="button10C" onclick="reInstallJ()">
+    <!-- isReInstall -->
+    <input id="isReInstall" type="checkbox" value="" class="check5C" checked />
+    <!-- reStart -->
+    <input id="reStart" type="button" value="reStart" class="button10C" onclick="reStartJ()">
+    <!-- isReStart -->
+    <input id="isReStart" type="checkbox" value="" class="check5C" checked />
+    <!-- saveCaseName -->
+    <input id="saveCaseName" type="text" value="saveCaseName" class="input20C">
+    <!-- save -->
+    <input id="save" type="button" value="save" class="button10C" onclick="saveJ()">
+    <!-- stmtlog -->
+    <input id="stmtlog" type="button" value="stmtlog" class="button10C" onclick="stmtlogJ()">
+
+    <!-- analyzePrefix -->
+    <input id="analyzePrefix" type="text" value="analyzePrefix" class="input20C">
+    <!-- analyze file -->
+    <select id="analyzeFile" class="select30C">
+        <option value="rootcause">rootcause</option>
+        <option value="fix">fix</option>
+        <option value="top100">top100</option>
+    </select>
+    <!-- analyze factor -->
+    <select id="factor" class="select30C">
+        <option value="Ochiai">Ochiai</option>
+        <option value="Tarantula">Tarantula</option>
+        <option value="Barinel">Barinel</option>
+        <option value="DStar">DStar</option>
+        <option value="Op2">Op2</option>
+    </select>
+    <!-- analyze -->
+    <input id="analyze" type="button" value="analyze" class="button10C" onclick="analyzeJ()">
+    <!-- combine -->
+    <input id="combine" type="button" value="combine" class="button10C" onclick="combineAnalyzeJ()">
+
+    <!-- testing -->
+    <!-- change tester -->
+    <select id="tester" class="select20C">
+        <option value="monkey">monkey</option>
+    </select>
+    <input id="testNum" type="text" value="num" class="input20C">
+    <input id="testPrefix" type="text" value="prefix" class="input20C">
+    <input id="testParam" type="text" value="param" class="input20C">
+    <input id="testing" type="button" value="testing" class="button10C" onclick="testingJ()">
+    <input id="rdanalyze" type="button" value="rdanalyze" class="button10C" onclick="rdAnalyzeJ()">
+
+
+    <!-- ================================================================================ -->
+    <!-- event list -->
+    <div id = "eventList" class="eventListC">
+        <table class="eventListTableC">
+            <thead>
+                <tr>
+                    <th class="eventListTableTh0C">Id</th>
+                    <th class="eventListTableTh1C">Type</th>
+                    <th class="eventListTableTh2C">Value</th>
+                    <th class="eventListTableTh3C">Desc</th>
+                </tr>
+            </thead>
+            <tbody id="eventListTableBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 3. source controller -->
+<div class="leftBottomC">
+    <!-- source search -->
+    <input id="sourceSearchContent" type="text" value="suffix or cover" class="input100C" onkeydown="sourceSearchJ(event);">
+    <div id="sourceTree" class="sourceTreeC">
+        <div id="sourceTreeView" class="treeViewC"></div>
+    </div>
+    <div id="analysisList" class="analysisListC">
+        <div id="analysisListView" class="treeViewC"></div>
+    </div>
+</div>
+
+<!-- 4. source code -->
+<div class="rightBottomC">
+    <div id="sourceHead" class="sourceHeadC">project</div>
+    <div id="sourceList" class="sourceListC">
+        <div id="sourceListView" class="treeViewC"></div>
+    </div>
+</div>
+
+<!-- tail -->
+<div class="headTailC">By Hzy</div>
+
+</body>
+</html>
