@@ -52,9 +52,7 @@ auiauto是一款android缺陷定位工具. 用户可借助auiauto录制测试用
 
 另外, auiauto的各个模块目前是可以并行执行的, 但要满足一个模拟器上只对一个app进行操作.
 
-## 编译运行
-
-### 编译
+## 编译
 
 首先配置golang环境, 我们使用的golang版本为1.15.2. 国内用户推荐配置一下代理:
 
@@ -70,7 +68,7 @@ go env -w GOPROXY=https://goproxy.cn,direct
 
 此时根目录下会生成auiauto可执行文件, 编译成功
 
-### 运行
+## 运行
 
 配置根目录下的config.json:
 
@@ -92,7 +90,15 @@ go env -w GOPROXY=https://goproxy.cn,direct
 
 现在在浏览器中访问 (http://localhost:8082/) 就可以正常使用了(ip和端口是config.json中配置的, 用户自行调整):
 
-![image-20220326180835774](README.assets/image-20220326180835774.png)
+![image-20220326172016533](README.assets/image-20220326172016533.png)
+
+## DroidFL
+
+如果想要查看DroidFL的实验结果, 可以下载我们提供的projects文件:
+
+https://mega.nz/file/x0cG1JqT#MPImH8kRrmwfd1ojBJvaOlDqpRVcPMNN1StYvRpD_lU
+
+链接失效的话issue提醒我们, 后面我们也会尽量搭个服务器提供数据下载.
 
 ## 用户文档
 
