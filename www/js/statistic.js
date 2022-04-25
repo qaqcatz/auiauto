@@ -52,6 +52,8 @@ async function staAnalyzeAllJ() {
             "<th style=\""+statisticTableThC+"\">twoMap</th>"+
             "<th style=\""+statisticTableThC+"\">twoRank</th>"+
             "<th style=\""+statisticTableThC+"\">combineBestMap</th>"+
+            "<th style=\""+statisticTableThC+"\">pn</th>"+
+            "<th style=\""+statisticTableThC+"\">fn</th>"+
             "<th style=\""+statisticTableThC+"\">combinePassNum</th>"+
             "<th style=\""+statisticTableThC+"\">combineCrashNum</th>"+
             "<th style=\""+statisticTableThC+"\">combineRank</th>"+
@@ -81,6 +83,8 @@ async function staAnalyzeAllJ() {
                 "<td>" + parseFloat(staEachs[i]["twoMap"]) + "</td>" +
                 "<td>" + staEachs[i]["twoRank"] + "</td>" +
                 "<td>" + parseFloat(staEachs[i]["combineBestMap"]) + "</td>" +
+                "<td>" + parseFloat(staEachs[i]["pn"]) + "</td>" +
+                "<td>" + parseFloat(staEachs[i]["fn"]) + "</td>" +
                 "<td>" + staEachs[i]["combineBestPassNum"] + "</td>" +
                 "<td>" + staEachs[i]["combineBestCrashNum"] + "</td>" +
                 "<td>" + staEachs[i]["combineBestRank"] + "</td>" +
@@ -142,7 +146,7 @@ async function staRdAnalyzeJ() {
             for (let i = 0; i < xs.length; i++) {
                 echartData.push([xs[i], parseFloat(zs[i])]);
             }
-            console.log(echartData);
+            console.log(zs);
             option = {
                 title: {
                     text: projectId

@@ -10,13 +10,13 @@ import (
 )
 
 var Projects = []string{
-	//"ActivityDiary-118",        // 0,  1,     191
-	//"AlarmClock_389",           // 1,  1,     234
-	//"AmazeFileManager-1796",    // 2,  4(1),  255
-	//"AmazeFileManager-1837",    // 3   5(1),  276
-	//"and-bible-261",            // 4   1,     219
-	//"and-bible-375",            // 5   12(1), 119
-	//"and-bible-480",            // 6   10(1), 148
+	"ActivityDiary-118",        // 0,  1,     191
+	"AlarmClock_389",           // 1,  1,     234
+	"AmazeFileManager-1796",    // 2,  4(1),  255
+	"AmazeFileManager-1837",    // 3   5(1),  276
+	"and-bible-261",            // 4   1,     219
+	"and-bible-375",            // 5   12(1), 119
+	"and-bible-480",            // 6   10(1), 148
 	"Anki-Android-4586",        // 7   78(1), 107
 	"Anki-Android-4589",        // 8   58(1), 58
 	"Anki-Android-4977",        // 9   2(2),  307

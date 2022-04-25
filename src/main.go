@@ -116,6 +116,8 @@ func main() {
 	r.GET("/stafactorsanalyze", prstatistic.RStatisticFactors)
 	r.GET("/staanalyzeall", prstatistic.RStatisticAll)
 	r.GET("/stardtesting", prstatistic.RStatisticRdTesting)
+	r.GET("/projectlines", prstatistic.RProjectLines)
+	r.GET("/eventslength", prstatistic.REventsLength)
 	// 保存表格
 	r.POST("/savecharts", prcharts.RSaveCharts)
 

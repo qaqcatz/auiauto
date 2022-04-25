@@ -16,7 +16,7 @@ import (
 
 // 源码树, 用于覆盖率可视化以及差异分析
 type SourceTree struct {
-	// 跟节点
+	// 根节点
 	MRoot *SourceNode `json:"root"`
 	// 正确用例总数
 	MTotalPassed int `json:"-"`

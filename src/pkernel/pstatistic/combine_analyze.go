@@ -14,6 +14,10 @@ import (
 type StaCombine struct {
 	// 组合总数2^(n-1)
 	MN int `json:"n"`
+	// 正确用例数
+	MPN int `json:"pn"`
+	// 错误用例数
+	MFN int `json:"fn"`
 	// 所有组合中最好的map
 	MBestMap string `json:"bestMap"`
 	// bestMap对应的正确用例数量
@@ -63,6 +67,16 @@ func StatisticCombineStd(projectId string, analyzeFile string, factor string, ca
 	cases := strings.Split(line, " ")
 	if len(cases) != n {
 		return nil, perrorx.NewErrorXSplitN(len(cases), n, nil)
+	}
+	pn := 0
+	fn := 0
+	for i := 0; i < n; i++ {
+		if strings.Contains(cases[i], "pass") {
+			pn += 1
+		}
+		if strings.Contains(cases[i], "crash") {
+			fn += 1
+		}
 	}
 	// 接下来2^(n-1)个组合, 每个组合:
 	for i := 0; i < (1<<(n-1)); i++ {
@@ -121,6 +135,8 @@ func StatisticCombineStd(projectId string, analyzeFile string, factor string, ca
 	}
 	ans := &StaCombine {
 		MN: n,
+		MPN: pn,
+		MFN: fn,
 		MBestMap: strconv.FormatFloat(bestMap, 'f', 5, 64),
 		MBestPassNum: bestPassNum,
 		MBestCrashNum: bestCrashNum,

@@ -64,6 +64,10 @@ type StaEach struct {
 	// combine
 	// 所有组合中最好的map
 	MCombineBestMap string `json:"combineBestMap"`
+	// 正确用例数
+	MPN int `json:"pn"`
+	// 错误用例数
+	MFN int `json:"fn"`
 	// combineBestMap对应的正确用例数量
 	MCombineBestPassNum int `json:"combineBestPassNum"`
 	// combineBestMap对应的错误用例数量
@@ -135,6 +139,8 @@ func StatisticAllStd(analyzeFile string, factor string, tester string) (*StaAll,
 			MTwoMap: twoAns.MMap,
 			MTwoRank: twoAns.MRank,
 			MCombineBestMap: combineAns.MBestMap,
+			MPN: combineAns.MPN,
+			MFN: combineAns.MFN,
 			MCombineBestPassNum: combineAns.MBestPassNum,
 			MCombineBestCrashNum: combineAns.MBestCrashNum,
 			MCombineBestRank: combineAns.MBestRank,
