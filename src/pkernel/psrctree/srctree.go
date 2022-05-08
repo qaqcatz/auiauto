@@ -103,16 +103,13 @@ func (sourceTree *SourceTree) GetCodesAndCoverLines(dotClassPath string) (*Codes
 	return &CodesAndCoverLines{codes, codesType}, nil
 }
 
-// 为srctree添加覆盖, 具体而言是根据dotClassPath找到对应节点, 根据coverLines和eventIds为节点中相应的代码行做标记,
-// 通过status判断当前是被正确用例标记还是错误用例标记
-// eventId表示只统计被这个动作覆盖的行, 例如3的话表示统计被3覆盖的语句, 3!的话表示统计只被3覆盖的语句, 在覆盖显示时才会生效, 分析时默认为空
-func (sourceTree *SourceTree) addCover(dotClassPath string, coverLines []int, eventIds []string, status string,
-	eventId string) *perrorx.ErrorX {
+// 根据dotClassPath(此时已经去掉了$)寻找其在src tree上对应的节点
+// 对应class和源文件不是建简单的事情, 为此我们做了一些匹配规则:
+// 1. 直接看搜索最后一步的节点是否和dotClassPath相对应
+// 2. 若最后一步没找到, 则去掉dotClassPath的Kt后缀再找一次(kotlin一些源文件编译成class后会加Kt)
+// 3. 若去掉Kt找不到, 则(此时不要去Kt)去clsSrcMap找, clsSrcMap是我们通过简单语法分析得到的class与源文件的映射关系
+func (sourceTree *SourceTree) FindSrcNode(dotClassPath string) *SourceNode {
 	sp := strings.Split(dotClassPath, ".")
-	// 对应class和源文件不是建简单的事情, 为此我们做了一些匹配规则:
-	// 1. 直接看搜索最后一步的节点是否和dotClassPath相对应
-	// 2. 若最后一步没找到, 则去掉dotClassPath的Kt后缀再找一次(kotlin一些源文件编译成class后会加Kt)
-	// 3. 若去掉Kt找不到, 则(此时不要去Kt)去clsSrcMap找, clsSrcMap是我们通过简单语法分析得到的class与源文件的映射关系
 	cur := sourceTree.MRoot
 	for i := 0; i < len(sp); i++ {
 		if nex, exist := cur.MChildrenMap[sp[i]]; exist {
@@ -141,8 +138,20 @@ func (sourceTree *SourceTree) addCover(dotClassPath string, coverLines []int, ev
 					continue
 				}
 			}
-			return perrorx.NewErrorXAddCover("class " + dotClassPath + " does not exist", nil)
+			return nil
 		}
+	}
+	return cur
+}
+
+// 为srctree添加覆盖, 具体而言是根据dotClassPath找到对应节点, 根据coverLines和eventIds为节点中相应的代码行做标记,
+// 通过status判断当前是被正确用例标记还是错误用例标记
+// eventId表示只统计被这个动作覆盖的行, 例如3的话表示统计被3覆盖的语句, 3!的话表示统计只被3覆盖的语句, 在覆盖显示时才会生效, 分析时默认为空
+func (sourceTree *SourceTree) addCover(dotClassPath string, coverLines []int, eventIds []string, status string,
+	eventId string) *perrorx.ErrorX {
+	cur := sourceTree.FindSrcNode(dotClassPath)
+	if cur == nil {
+		return perrorx.NewErrorXAddCover("class " + dotClassPath + " does not exist", nil)
 	}
 	if eventIds != nil {
 		for i := 0; i < len(coverLines); i++ {

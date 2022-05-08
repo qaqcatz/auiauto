@@ -4,11 +4,13 @@ import (
 	"auiauto/pdba"
 	"auiauto/perrorx"
 	"auiauto/pkernel/psrctree"
+	"auiauto/pkernel/pstmtlog"
 	"auiauto/pkernel/psuscode"
 	"auiauto/putils"
 	"io/ioutil"
 	"path"
 	"strconv"
+	"strings"
 )
 
 // 普通分析, 在指定目录下生成分析文件analyze_casePrefix_analyzeFile_factor.txt
@@ -59,6 +61,9 @@ func readSourceTreeAndAnalyzeStd(projectId string, caseNames []string, analyzeFi
 	return sourceTree, susCodeSlice, nil
 }
 
+// 实验性功能开关, 在Sim2S时启用, 增加栈信息权重
+var gSim2S = false
+
 // 根据projectId/src创建源码树, 读取cases列表的路径进行源码树覆盖, 通过factor进行差异分析, 根据analyzeFile进行分析结果过滤
 func readSourceTreeAndAnalyze(projectId string, cases []string, analyzeFile string, factor string) (*psrctree.SourceTree,
 	psuscode.SusCodes, *perrorx.ErrorX) {
@@ -89,20 +94,37 @@ func readSourceTreeAndAnalyze(projectId string, cases []string, analyzeFile stri
 		}
 	})
 
+	// 通过栈信息增强定位效果
+	// 格式: 源文件的dotClassPath@line->idx(在栈中的顺序, 之统计源文件中出现过的),
+	// 即去除$, 通过srctree的findSrcNode获取的src node对应的MFullName
+	st := make(map[string]int, 0)
+	if gSim2S {
+		// 这里先定死读origin_crash
+		stmtLog, err := pstmtlog.ReadStmtLogStd(projectId, "origin_crash")
+		if err != nil {
+			return nil, nil, perrorx.TransErrorX(err)
+		}
+		idx := 0
+		for _, element := range stmtLog.MStackTraceStr {
+			sp := strings.Split(element, "@")
+			if len(sp) != 2 {
+				continue
+			}
+			dotClassPath := sp[0]
+			if strings.Contains(dotClassPath, "$") {
+				dotClassPath = dotClassPath[0:strings.Index(dotClassPath, "$")]
+			}
+			if srcNode := sourceTree.FindSrcNode(dotClassPath); srcNode != nil {
+				idx++
+				st[srcNode.MFullName+"@"+sp[1]] = idx
+			}
+		}
+	}
+
 	psuscode.DoInit(susCodes, sourceTree.MTotalPassed, sourceTree.MTotalFailed)
-	switch factor {
-	case "Ochiai":
-		psuscode.DoOchiai(susCodes)
-	case "Tarantula":
-		psuscode.DoTarantula(susCodes)
-	case "Barinel":
-		psuscode.DoBarinel(susCodes)
-	case "DStar":
-		psuscode.DoDStar(susCodes)
-	case "Op2":
-		psuscode.DoOp2(susCodes)
-	default:
-		return nil, nil, perrorx.NewErrorXReadSourceTreeAndAnalyze("unknown factor", nil)
+	err = psuscode.DoSusFormula(factor, susCodes, st)
+	if err != nil {
+		return nil, nil, perrorx.TransErrorX(err)
 	}
 	// 注意分析完后要把ranking信息反馈给srctree
 	for i := 0; i < susCodes.Len(); i++ {

@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"os"
 	"path"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -115,14 +116,21 @@ func StatisticCombineStd(projectId string, analyzeFile string, factor string, ca
 				return nil, perrorx.NewErrorXAtoI(sp[j], nil)
 			}
 		}
-		// 计算每轮随机的map
-		curMap := 0.0
-		for j := 0; j < s; j++ {
-			// 这里注意用k+1, 判断rank[k]是否为0
-			if rank[j] != 0 {
-				curMap += float64(j+1) / float64(rank[j])
+
+		rank_ := make([]int, 0)
+		for _, r := range rank {
+			if r <= 0 {
+				continue
 			}
+			rank_ = append(rank_, r)
 		}
+		sort.Ints(rank_)
+		curMap := 0.0
+		for j := 0; j < len(rank_); j++ {
+			// 这里注意用k+1
+			curMap += float64(j+1) / float64(rank_[j])
+		}
+		curMap /= float64(s)
 		// 更新bestMap
 		if curMap > bestMap {
 			bestMap = curMap

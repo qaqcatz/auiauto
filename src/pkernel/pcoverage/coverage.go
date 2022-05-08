@@ -50,7 +50,7 @@ func ReadCoverage(path string) (*Coverage, *perrorx.ErrorX) {
 // @stmtLog: stmtLog.Crashed(
 // @jsonPath: stmtLog.Crashed(jsonPath,
 // @cfgMethod: cfgMethod.MStmts[jid]
-func lineCoverageDFS(stmtLog *pstmtlog.StmtLog, jsonPath string, cfgMethod *pcfg.CFGMethod,
+func lineCoverageDFS(stmtLog *pstmtlog.StmtLog, classPath string, cfgMethod *pcfg.CFGMethod,
 	jidMap map[int]int64, jid int, eventId int64) *perrorx.ErrorX {
 
 	stmt := cfgMethod.MStmts[jid]
@@ -67,7 +67,7 @@ func lineCoverageDFS(stmtLog *pstmtlog.StmtLog, jsonPath string, cfgMethod *pcfg
 	jidMap[jid] = newEventId
 
 	// 判断语句是否崩溃
-	if stmtLog.Crashed(jsonPath, stmt.MSid) {
+	if stmtLog.Crashed(classPath, stmt.MSid) {
 		return nil
 	}
 	// 禁止走br, 因为br的逻辑是在外层迭代做的
@@ -76,14 +76,14 @@ func lineCoverageDFS(stmtLog *pstmtlog.StmtLog, jsonPath string, cfgMethod *pcfg
 	}
 	if stmt.MType == "gt" {
 		// goto跳转
-		err := lineCoverageDFS(stmtLog, jsonPath, cfgMethod, jidMap, stmt.MTargets[0], newEventId)
+		err := lineCoverageDFS(stmtLog, classPath, cfgMethod, jidMap, stmt.MTargets[0], newEventId)
 		if err != nil {
 			return err
 		}
 	} else if stmt.MType == "n" {
 		// n语句通过fallThrough判断是否要继续向下一条语句走
 		if stmt.MFallThrough {
-			err := lineCoverageDFS(stmtLog, jsonPath, cfgMethod, jidMap, jid+1, newEventId)
+			err := lineCoverageDFS(stmtLog, classPath, cfgMethod, jidMap, jid+1, newEventId)
 			if err != nil {
 				return err
 			}
@@ -102,7 +102,8 @@ func LineCoverage(stmtLog *pstmtlog.StmtLog, projectId string) (*Coverage, *perr
 	// 遍历stmtLog中的每个class, 在cfg中寻找对应的class
 	for classJsonPath, stmtLogMethods := range stmtLog.MClasses {
 		// 将classJsonPath还原成className
-		className := strings.ReplaceAll(classJsonPath[0:len(classJsonPath)-5], "/", ".")
+		classPath := strings.ReplaceAll(classJsonPath[0:len(classJsonPath)-5], "/", ".")
+		className := classPath
 		// test$1 -> test
 		if strings.Contains(className, "$") {
 			className = className[0:strings.Index(className, "$")]
@@ -137,7 +138,7 @@ func LineCoverage(stmtLog *pstmtlog.StmtLog, projectId string) (*Coverage, *perr
 			if err != nil {
 				return nil, perrorx.NewErrorXParseInt(stmtLogMethod.MethodEventId, nil)
 			}
-			err_ := lineCoverageDFS(stmtLog, classJsonPath, cfgMethod, jidMap, 0, methodEventId)
+			err_ := lineCoverageDFS(stmtLog, classPath, cfgMethod, jidMap, 0, methodEventId)
 			if err_ != nil {
 				return nil, perrorx.TransErrorX(err_)
 			}
@@ -149,14 +150,14 @@ func LineCoverage(stmtLog *pstmtlog.StmtLog, projectId string) (*Coverage, *perr
 						return nil, perrorx.NewErrorXParseInt(stmt.MEventId, nil)
 					}
 					// 一定会在开始断掉, 用来做下记忆化以及崩溃判断
-					err_ := lineCoverageDFS(stmtLog, classJsonPath, cfgMethod, jidMap, stmt.MJid, eventId)
+					err_ := lineCoverageDFS(stmtLog, classPath, cfgMethod, jidMap, stmt.MJid, eventId)
 					if err_ != nil {
 						return nil, perrorx.TransErrorX(err_)
 					}
 					// 搜索对应的分支
 					// 这里cfgMethod.MStmts[stmt.MJid].MTargets[stmt.MValue]表示根据stmtLogStmt的jid获取cfgStmt,
 					// 然后以stmtLogStmt的Value作为分支下标在cfgStmt.Targets中获取目标语句
-					err_ = lineCoverageDFS(stmtLog, classJsonPath, cfgMethod, jidMap,
+					err_ = lineCoverageDFS(stmtLog, classPath, cfgMethod, jidMap,
 						cfgMethod.MStmts[stmt.MJid].MTargets[stmt.MValue], eventId)
 					if err_ != nil {
 						return nil, perrorx.TransErrorX(err_)

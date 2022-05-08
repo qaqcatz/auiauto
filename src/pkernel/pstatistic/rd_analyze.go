@@ -126,12 +126,18 @@ func StatisticRdStd(projectId string, analyzeFile string, factor string, tester 
 				}
 			}
 			// 计算每轮随机的map
-			curMap := 0.0
-			for k := 0; k < s; k++ {
-				// 这里注意用k+1, 判断rank[k]是否为0
-				if rank[k] != 0 {
-					curMap += float64(k+1) / float64(rank[k])
+			rank_ := make([]int, 0)
+			for _, r := range rank {
+				if r <= 0 {
+					continue
 				}
+				rank_ = append(rank_, r)
+			}
+			sort.Ints(rank_)
+			curMap := 0.0
+			for k := 0; k < len(rank_); k++ {
+				// 这里注意用k+1
+				curMap += float64(k+1) / float64(rank_[k])
 			}
 			curMap /= float64(s)
 			// 计算平均map

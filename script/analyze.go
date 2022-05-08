@@ -9,9 +9,9 @@ import (
 func main() {
 	ip := "127.0.0.1"
 	port := "8082"
-	casePrefix := "art"
+	casePrefix := "two"
 	analyzeFile := "fix"
-	factor := "Op2"
+	factor := "Ochiai"
 	for i := 0; i < len(Projects); i++ {
 		fmt.Println("analyze project " + strconv.Itoa(i) + " " + Projects[i])
 		resp, err := http.Get("http://" + ip + ":" + port + "/analyze?" +

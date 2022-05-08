@@ -6,9 +6,9 @@ import "auiauto/pkernel/psrctree"
 type SusCode struct {
 	// 可疑语句对应的srcnode
 	MOriginNode *psrctree.SourceNode `json:"-"`
-	// 可以语句在srcnode中的下标
+	// 可疑语句在srcnode中的下标
 	MIdx int `json:"-"`
-	// short class name
+	// short class name, 对应src node的full name
 	MClassShortName string `json:"classShortName"`
 	// dot class name
 	MClassName string `json:"className"`

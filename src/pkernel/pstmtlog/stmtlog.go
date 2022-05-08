@@ -178,8 +178,8 @@ func (stmtLog *StmtLog) Debug() {
 }
 
 // 判断指定的源码行有没有在崩溃栈中出现过
-func (stmtLog *StmtLog) Crashed(classJsonPath string, sid int) bool {
-	if _, ok := stmtLog.MStackTrace[classJsonPath+"@"+strconv.Itoa(sid)]; ok {
+func (stmtLog *StmtLog) Crashed(classPath string, sid int) bool {
+	if _, ok := stmtLog.MStackTrace[classPath+"@"+strconv.Itoa(sid)]; ok {
 		return true
 	}
 	return false

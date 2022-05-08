@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"os"
 	"path"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -47,13 +48,20 @@ func StatisticNormalStd(projectId string, analyzeFile string, factor string, cas
 		}
 	}
 	// 计算map
-	myMap := 0.0
-	for j := 0; j < s; j++ {
-		// 这里注意用k+1, 判断rank[k]是否为0
-		if rank[j] != 0 {
-			myMap += float64(j+1) / float64(rank[j])
+	rank_ := make([]int, 0)
+	for _, r := range rank {
+		if r <= 0 {
+			continue
 		}
+		rank_ = append(rank_, r)
 	}
+	sort.Ints(rank_)
+	myMap := 0.0
+	for j := 0; j < len(rank_); j++ {
+		// 这里注意用k+1
+		myMap += float64(j+1) / float64(rank_[j])
+	}
+	myMap /= float64(s)
 	ans := &StaNormal {
 		MMap: strconv.FormatFloat(myMap, 'f', 5, 64),
 		MRank: rank,
