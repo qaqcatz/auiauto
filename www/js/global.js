@@ -61,7 +61,7 @@ async function httpPost(url, param, json, func) {
         if (document.getElementById("avd") != null) {
             avd = document.getElementById("avd").value;
         }
-        console.log("POST", Prefix+url+"?avd="+avd+"&"+param)
+        console.log("POST", Prefix+url+"?avd="+avd+"&"+param+"\nbody\n"+json)
         let xhr = new XMLHttpRequest();
         xhr.open("POST", Prefix+url+"?avd="+avd+"&"+param, true);
         xhr.setRequestHeader('content-type', 'application/json');
