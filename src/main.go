@@ -72,6 +72,8 @@ func main() {
 	r.POST("/perform", prperform.RPerform)
 	// 复现用例
 	r.POST("/performs", prperform.RPerforms)
+	// only perform events
+	r.POST("/performes", prperform.RPerformEs)
 
 	// testcase
 	// 加载project下的全部用例

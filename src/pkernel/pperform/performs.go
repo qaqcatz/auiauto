@@ -168,3 +168,25 @@ func PostPerforms(avd string, projectId string, caseName string) (int, *perrorx.
 
 	return i, nil, crashFlag
 }
+
+// PostPerformEs: only perform events.
+func PostPerformEs(avd string, projectId string, caseName string) (int, *perrorx.ErrorX) {
+	// 读取测试用例
+	events, err := pevent.ReadEventsStd(projectId, caseName)
+	if err != nil {
+		return 0, perrorx.TransErrorX(err)
+	}
+
+	// 执行动作序列
+	logrus.Debugf("performs >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+	// i记录好执行成功了多少个动作
+	i := 0
+	for ; i < len(events.MEvents); i++ {
+		_, err := PostPerform(avd, events.MEvents[i], false)
+		if err != nil {
+			return i, perrorx.NewErrorXPerforms("perform event " + strconv.Itoa(i) + " error", err)
+		}
+	}
+
+	return i, nil
+}
