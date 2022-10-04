@@ -2,4 +2,4 @@
 /database/projects
 /database/tmp
 /auiauto
-*.json
+config.json
