@@ -70,7 +70,7 @@ go env -w GOPROXY=https://goproxy.cn,direct
 
 ## 运行
 
-配置根目录下的config.json:
+在根目录下新建config.json:
 
 ```json
 {
@@ -91,6 +91,12 @@ go env -w GOPROXY=https://goproxy.cn,direct
 现在在浏览器中访问 (http://localhost:8082/) 就可以正常使用了(ip和端口是config.json中配置的, 用户自行调整):
 
 ![image-20220326172016533](README.assets/image-20220326172016533.png)
+
+## 初始快照
+
+推荐在测试前创建一个初始快照, 流程如下:
+* 安装antrance
+* 配置wifi代理
 
 ## DroidFL
 
