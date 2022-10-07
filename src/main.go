@@ -49,6 +49,9 @@ func main() {
 	r.GET("/devices", premulator.RDevices)
 	// antrance中存在日志时会禁止用户后续的操作, 需要init才能正常使用
 	r.GET("/init", premulator.RInit)
+	r.GET("/hello", premulator.RHello)
+	// 判断当前app是否崩溃
+	r.GET("/iscrash", premulator.RIsCrash)
 	// 获取屏幕截图的base64编码
 	r.GET("/screenshot", premulator.RScreenShot)
 	// snapshot

@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 // 通用的http request方法, 自动开启端口转发
@@ -49,7 +50,7 @@ func AntranceRequest(method string, avd string, paramUrl string, jsonData []byte
 	}
 	if resp.StatusCode != http.StatusOK {
 		return "", perrorx.NewErrorXAntranceRquest(method+" http://"+avdIp+":"+port+"/"+paramUrl,
-			"http.StatusOK", nil)
+			"error code: " + strconv.Itoa(resp.StatusCode) + " error message: " + string(data), nil)
 	}
 	return string(data), nil
 }

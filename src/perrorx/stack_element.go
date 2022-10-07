@@ -11,7 +11,6 @@ type StackElement struct {
 
 func (stackElement *StackElement) ToString() string {
 	ans := ""
-	ans += stackElement.MFilePath
-	ans += "(" + stackElement.MMethodName + ":" + strconv.Itoa(stackElement.MLine) + ")"
+	ans += stackElement.MFilePath + ":" + strconv.Itoa(stackElement.MLine)
 	return ans
 }

@@ -58,7 +58,7 @@ func PerformInit(avd string, projectId string, events *pevent.Events) *perrorx.E
 	}
 
 	// antrance init
-	err := pahttp.GetInit(avd)
+	_, err := pahttp.GetInit(avd)
 	if err != nil {
 		return perrorx.TransErrorX(err)
 	}

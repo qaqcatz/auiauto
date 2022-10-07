@@ -8,13 +8,12 @@ import (
 	"net/http"
 )
 
-// 初始化antrance, 主要是清空antrance的stmtlog
-func RInit(c *gin.Context) {
+func RHello(c *gin.Context) {
 	avd := c.Query("avd")
-	ans, err := pahttp.GetInit(avd)
+	ans, err := pahttp.GetHello(avd)
 	if err != nil {
 		logrus.Errorf(perrorx.TransErrorX(err).Error())
-		c.String(http.StatusInternalServerError, "get init error: " + err.MType + ":" + err.MDescription)
+		c.String(http.StatusInternalServerError, "get hello error: " + err.MType + ":" + err.MDescription)
 		return
 	}
 	c.String(http.StatusOK, ans)

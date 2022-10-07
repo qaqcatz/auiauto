@@ -4,11 +4,11 @@ import (
 	"auiauto/perrorx"
 )
 
-// 应用生成日志后会禁止后续ui tree的获取, 需要init
-func GetInit(avd string) *perrorx.ErrorX {
-	_, err := AntranceRequest("GET", avd, "init", nil)
+// 务必在每次测试前调用一下init
+func GetInit(avd string) (string, *perrorx.ErrorX) {
+	ans, err := AntranceRequest("GET", avd, "init", nil)
 	if err != nil {
-		return perrorx.TransErrorX(err)
+		return "", perrorx.TransErrorX(err)
 	}
-	return nil
+	return ans, nil
 }

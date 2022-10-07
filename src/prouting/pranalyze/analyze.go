@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-// 根据casePrefix以及analyzeFile进行差异分析
+// 根据casePrefix以及analyzeFile进行差异分析.
 func RAnalyze(c *gin.Context) {
 	projectId := c.Query("projectId")
 	casePrefix := c.Query("casePrefix")

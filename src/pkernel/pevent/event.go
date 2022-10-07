@@ -14,11 +14,11 @@ type Event struct {
 	// 格式: 包@类@res id@操作码@深度
 	// 操作码:
 	// 支持|运算, 从低位到高位:
-	// 1位: clickable
-	// 2位: longClickable
-	// 3位: editable
-	// 4位: scrollable
-	// 5位: checkable
+	// 0位: clickable
+	// 1位: longClickable
+	// 2位: editable
+	// 3位: scrollable
+	// 4位: checkable
 	MObject string `json:"object"`
 	// object的index前缀
 	// ui元素匹配规则:
