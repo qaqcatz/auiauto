@@ -21,7 +21,7 @@ func parseBounds(bds string) (int, int, int, int, *perrorx.ErrorX) {
 	}
 	ans := make([]int, 4)
 	for i := 0; i < 4; i++ {
-		temp, err :=  strconv.Atoi(sp[i])
+		temp, err := strconv.Atoi(sp[i])
 		if err != nil {
 			return -1, -1, -1, -1, perrorx.NewErrorXAtoI(sp[i], nil)
 		}
@@ -48,7 +48,7 @@ func waitAvaUITree(avd string, event *pevent.Event) (*puitree.UINode, *puitree.U
 		if d.Seconds() > timeout {
 			break
 		}
-		time.Sleep(time.Millisecond*1000)
+		time.Sleep(time.Millisecond * 1000)
 		logrus.Debugf("waitAvaUITree: wait 1s")
 	}
 	return nil, nil, perrorx.NewErrorXWaitAvaUITree("timeout, can not perform this event", nil)
@@ -67,9 +67,9 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 		eventOrigin.MType + " " + eventOrigin.MValue)
 	defer func() {
 		logrus.Debugf("PostPerform: ==================================================")
-	} ()
+	}()
 
-	// 1. 动作执行前等待一段时间
+	// 1.1 动作执行前等待一段时间
 	// 如果event的value以@prewait{...}开头的话需要解析{}中的等待时间(ms), 表示做这个动作前需要等待多少毫秒,
 	// 没有这个标识的话默认等待750ms
 	// 因为后面很多地方要用到去除@prewait的value, 我们将eventOrigin拷贝一份, 处理一下value, 还有这里prefix共用即可
@@ -93,7 +93,28 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 		}
 	}
 	logrus.Debugf("PostPerform: waitBefore: " + strconv.Itoa(waitBefore) + " ms")
-	time.Sleep(time.Millisecond*time.Duration(waitBefore))
+	time.Sleep(time.Millisecond * time.Duration(waitBefore))
+
+	// 1.2 wait after
+	waitAfterFlag := false
+	waitAfter := 750
+	if strings.HasPrefix(event.MValue, "@postwait") {
+		sp := strings.SplitN(event.MValue, "}", 2)
+		if len(sp) != 2 {
+			return nil, perrorx.NewErrorXSplitN(len(sp), 2, nil)
+		}
+		event.MValue = sp[1]
+		sp_ := strings.Split(sp[0], "{")
+		if len(sp_) != 2 {
+			return nil, perrorx.NewErrorXSplitN(len(sp_), 2, nil)
+		}
+		var err error = nil
+		waitAfter, err = strconv.Atoi(sp_[1])
+		if err != nil {
+			return nil, perrorx.NewErrorXAtoI(sp_[1], nil)
+		}
+		waitAfterFlag = true
+	}
 
 	// 2. 给antrance设置event id
 	eventId := event.MId
@@ -190,10 +211,10 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 					err = padb.AdbInputTap(avd, x, y)
 				}
 			default:
-				err = perrorx.NewErrorXPerform("unknown check value " + event.MValue, nil)
+				err = perrorx.NewErrorXPerform("unknown check value "+event.MValue, nil)
 			}
 		default:
-			err = perrorx.NewErrorXPerform("unknown type " + event.MType, nil)
+			err = perrorx.NewErrorXPerform("unknown type "+event.MType, nil)
 		}
 	} else {
 		switch event.MType {
@@ -208,7 +229,7 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 			}
 			spInt := make([]int, 5)
 			for i := 0; i < 5; i++ {
-				temp, err :=  strconv.Atoi(sp[i])
+				temp, err := strconv.Atoi(sp[i])
 				if err != nil {
 					return nil, perrorx.NewErrorXAtoI(sp[i], nil)
 				}
@@ -224,7 +245,7 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 			}
 			spInt := make([]int, 6)
 			for i := 0; i < 6; i++ {
-				temp, err :=  strconv.Atoi(sp[i])
+				temp, err := strconv.Atoi(sp[i])
 				if err != nil {
 					return nil, perrorx.NewErrorXAtoI(sp[i], nil)
 				}
@@ -241,7 +262,7 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 			if err != nil {
 				return nil, perrorx.NewErrorXAtoI(event.MValue, nil)
 			}
-			time.Sleep(time.Millisecond*time.Duration(ms))
+			time.Sleep(time.Millisecond * time.Duration(ms))
 		case "rotate":
 			// 取消自动旋转, 相当于我们经常设置的固定屏幕不旋转
 			err := padb.AdbAccRotation(avd, "0")
@@ -254,7 +275,7 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 				return nil, perrorx.TransErrorX(err)
 			}
 		default:
-			err = perrorx.NewErrorXPerform("unknown type " + event.MType, nil)
+			err = perrorx.NewErrorXPerform("unknown type "+event.MType, nil)
 		}
 	}
 
@@ -263,7 +284,10 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 		return nil, err
 	}
 
+	if waitAfterFlag {
+		logrus.Debugf("PostPerform: waitAfter: " + strconv.Itoa(waitAfter) + " ms")
+		time.Sleep(time.Millisecond * time.Duration(waitAfter))
+	}
+
 	return uiTree, nil
 }
-
-
