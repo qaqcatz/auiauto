@@ -118,12 +118,10 @@ func PostPerform(avd string, eventOrigin *pevent.Event, isInit bool) (*puitree.U
 
 	// 2. 给antrance设置event id
 	eventId := event.MId
-	if !isInit {
-		_, err := pahttp.AntranceRequest("GET", avd, "seteventid?id="+strconv.Itoa(eventId), nil)
-		if err != nil {
-			return nil, perrorx.TransErrorX(err)
-		}
+	if isInit {
+		eventId = 0
 	}
+	_, _ = pahttp.AntranceRequest("GET", avd, "seteventid?id="+strconv.Itoa(eventId), nil)
 
 	// 3. 根据event是否为global类型, 判断是否需要获取ui tree. 若是global类型, 则不许要获取ui tree, 直接执行即可;
 	// 之后根据event type执行相应的动作.
