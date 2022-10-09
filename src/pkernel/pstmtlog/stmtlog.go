@@ -33,17 +33,17 @@ import (
 // 特别地, 对于每个函数的入口插桩, 只记录methodSig.
 type StmtLog struct {
 	// 项目id
-	MProjectId        string   `json:"projectId"`
+	MProjectId string `json:"projectId"`
 	// 本次运行是否崩溃
-	MStatus           string   `json:"status"`
+	MStatus string `json:"status"`
 	// 语句数组, MStmts[i] != 0表示语句i被执行过
-	MStmts            []int    `json:"stmts"`
+	MStmts []int `json:"stmts"`
 	// 语句被哪些动作覆盖过, 二进制表示
-	MEventIds         []string `json:"eventids"`
+	MEventIds []string `json:"eventids"`
 	// 按行拆分并处理后的stack trace
-	MStackTraceStr    []string `json:"stackTrace"`
+	MStackTraceStr []string `json:"stackTrace"`
 	// 原始的stack trace
-	MStackTraceOrigin string   `json:"stackTraceOrigin"`
+	MStackTraceOrigin string `json:"stackTraceOrigin"`
 
 	// stmt根据idsigmap还原后根据methodsig归类
 	MStmtLogMethods []*StmtLogMethod `json:"-"`
@@ -104,6 +104,13 @@ func (stmtLog *StmtLog) Parse(logIdSigPath string) *perrorx.ErrorX {
 				}
 				methodEventIdMap[sp[0]] = stmtLog.MEventIds[i]
 			} else {
+				// 再加一次， 避免一些特殊的错误
+				if _, exist = methodStmtsMap[sp[0]]; !exist {
+					temp := make([]string, 0)
+					methodStmtsMap[sp[0]] = &temp
+				}
+				methodEventIdMap[sp[0]] = stmtLog.MEventIds[i]
+
 				if len(sp) != 2 {
 					return perrorx.NewErrorXSplitN(len(sp), 2, nil)
 				}
